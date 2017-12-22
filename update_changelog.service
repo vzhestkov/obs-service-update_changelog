@@ -1,0 +1,4 @@
+<service name="update_changelog">
+  <summary>Updates the changelog</summary>
+  <description>This service updates the changelog. Can be used after tar_scm</description>
+</service>

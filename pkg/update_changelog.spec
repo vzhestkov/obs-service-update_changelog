@@ -9,7 +9,7 @@ Summary:        An OBS source service: Update spec file version
 License:        GPL-2.0+
 Group:          Development/Tools/Building
 Url:            https://github.com/dincamihai/obs-service-%{service}
-Source:         %{name}-%{version}.tar.gz
+Source:         master.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 

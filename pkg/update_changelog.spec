@@ -10,7 +10,6 @@ License:        GPL-2.0+
 Group:          Development/Tools/Building
 Url:            https://github.com/dincamihai/obs-service-%{service}
 Source:         master.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 Requires:       python3
 

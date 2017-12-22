@@ -19,7 +19,7 @@ This is a source service for openSUSE Build Service.
 Service to update the changelog from git commits.
 
 %prep
-%setup -q -n obs-service-%{service}-%{version}
+%setup -q
 
 %build
 %python_build

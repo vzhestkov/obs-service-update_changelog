@@ -12,6 +12,7 @@ Url:            https://github.com/dincamihai/obs-service-%{service}
 Source:         master.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
+Requires:       python3
 
 %description
 This is a source service for openSUSE Build Service.

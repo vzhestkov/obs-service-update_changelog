@@ -31,6 +31,8 @@ Service to update the changelog from git commits.
 %python_build
 
 %install
+%python_install
+%python3_install
 %makeinstall
 
 # install -d /usr/lib/obs/service
@@ -54,7 +56,7 @@ Service to update the changelog from git commits.
 %{python3_sitelib}/updatechangelog
 %{python_sitelib}/updatechangelog-*.egg-info
 %{python3_sitelib}/updatechangelog-*.egg-info
-%{python_sitelib}/updatechangelog/*
-%{python3_sitelib}/updatechangelog/*
+/usr/lib/obs/service/update_changelog
+/usr/lib/obs/service/update_changelog.service
  
 %changelog

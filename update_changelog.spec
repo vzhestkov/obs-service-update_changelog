@@ -31,7 +31,10 @@ Service to update the changelog from git commits.
 %python_build
 
 %install
-%python_install
+
+install -d /usr/lib/obs/service
+ln -s %{buildroot}/update_changelog /usr/lib/obs/service
+ln -s %{buildroot}/update_changelog.service /usr/lib/obs/service
 
 
 # %install

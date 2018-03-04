@@ -18,6 +18,10 @@ This is a source service for openSUSE Build Service.
 
 Service to update the changelog from git commits.
 
+Buildrequires: python-jinja2
+Buildrequires: python-py
+Buildrequires: python-gitpython
+
 %prep
 %setup -q
 

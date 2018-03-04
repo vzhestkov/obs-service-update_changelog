@@ -34,22 +34,9 @@ Service to update the changelog from git commits.
 %python_install
 %makeinstall
 
-# install -d /usr/lib/obs/service
-# ln -s %{buildroot}/update_changelog /usr/lib/obs/service
-# ln -s %{buildroot}/update_changelog.service /usr/lib/obs/service
-
-
-# %install
-# 
-# install -d /usr/lib/obs/service
-# install -m 0755 update_changelog /usr/lib/obs/service
-# install -m 0644 update_changelog.service /usr/lib/obs/service
-
-# %files %{python-files}
-# %defattr(-,root,root)
-# %{python_sitelib}/update_changelog
-# %{python_sitelib}/update_changelog/templates/header.txt
 %files
+/usr/lib/obs
+/usr/lib/obs/service
 /usr/bin/update_changelog
 %{python_sitelib}/updatechangelog
 %{python3_sitelib}/updatechangelog

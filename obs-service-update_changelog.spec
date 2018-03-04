@@ -32,7 +32,6 @@ Service to update the changelog from git commits.
 
 %install
 %python_install
-%python3_install
 %makeinstall
 
 # install -d /usr/lib/obs/service

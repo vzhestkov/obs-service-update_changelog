@@ -1,10 +1,14 @@
 from distutils.core import setup
 
 setup(
-    name='obs-service-update_changelog',
+    name='updatechangelog',
+    include_package_data=True,
+    package_data = {
+        'updatechangelog': ['templates/*']
+    },
+    install_requires=['jinja2', 'py', 'gitpython'],
     version='0.1',
-    packages=[''],
-    url='',
+    packages=['updatechangelog'],
     license='MIT',
     scripts=['update_changelog'],
     description='OBS service to update changelog'

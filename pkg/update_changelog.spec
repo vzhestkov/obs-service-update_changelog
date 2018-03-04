@@ -21,14 +21,21 @@ Service to update the changelog from git commits.
 %prep
 %setup -q
 
-%build
-%python_build
+# %build
+# %python_build
+# 
+# %install
+# %python_install
+# 
 
 %install
-%python_install
 
-%files
-%defattr(-,root,root)
-%{python_sitelib}/update_changelog
+install -d /usr/lib/obs/service
+install -m 0755 update_changelog /usr/lib/obs/service
+install -m 0644 update_changelog.service /usr/lib/obs/service
 
+# %files
+# %defattr(-,root,root)
+# %{python_sitelib}/update_changelog
+# 
 %changelog

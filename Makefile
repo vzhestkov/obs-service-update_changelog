@@ -11,4 +11,8 @@ install:
 	chmod 0755 $(DESTDIR)$(servicedir)/update_changelog
 	chmod 0644 $(DESTDIR)$(servicedir)/update_changelog.service
 
+clean:
+	find -name "*.pyc" -exec rm {} \;
+	find -name '*.pyo' -exec rm {} \;
+
 .PHONY: all install

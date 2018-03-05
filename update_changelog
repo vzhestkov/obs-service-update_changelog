@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import sys
 import os
 import py
 import pytz
@@ -16,7 +17,7 @@ if __name__ == '__main__':
     commit = repo.commit('HEAD')
 
     if "[skip]" in commit.message:
-        return
+        sys.exit(0)
 
     existing_patches = set(
         [

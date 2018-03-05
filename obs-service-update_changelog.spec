@@ -17,6 +17,9 @@ BuildRequires:  %{python_module devel}
 BuildRequires:  %{python_module Jinja2}
 BuildRequires:  %{python_module py}
 BuildRequires:  %{python_module GitPython}
+Requires:  %{python_module GitPython}
+Requires:  %{python_module Jinja2}
+Requires:  %{python_module py}
 BuildRoot:      %{_tmppath}/%{name}-%{branch}
 
 %description

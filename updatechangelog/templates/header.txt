@@ -1,23 +1,25 @@
 -------------------------------------------------------------------                                                                                                     
-Fri Mar  2 13:15:46 UTC 2018 - {{ name }} <{{ email }}>                         
+{{ datetime }} - {{ name }} <{{ email }}>
                                                                                     
 - {{ message | safe }}
-{% if added %}
+{%- if added %}
 - Added:                                                                            
   {%- for item in added %}
-  * {{- item -}}
-  {% endfor -%}
-{% endif %}
-{% if modified %}
+  * {{ item }}
+  {% endfor %}
+{% endif -%}
+{%- if modified -%}
+
 - Modified:                                                                          
   {%- for item in modified %}
-  * {{- item -}}
-  {% endfor -%}
-{% endif %}
-{% if deleted %}
+  * {{ item }}
+  {% endfor %}
+{% endif -%}
+{%- if deleted -%}
+
 - Removed:                                                                          
   {%- for item in deleted %}
-  * {{- item -}}
-  {% endfor -%}
-{% endif %}
-                                                                                    
+  * {{ item }}
+  {% endfor %}
+{%- endif -%}
+

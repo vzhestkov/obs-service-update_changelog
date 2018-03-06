@@ -1,7 +1,10 @@
+{%- if messages -%}
 -------------------------------------------------------------------                                                                                                     
 {{ datetime }} - {{ name }} <{{ email }}>
                                                                                     
-- {{ message | safe }}
+{% for item in messages -%}
+- {{ item | safe }}
+{%- endfor -%}
 {%- if added %}
 - Added:                                                                            
   {%- for item in added %}
@@ -21,5 +24,6 @@
   {%- for item in deleted %}
   * {{ item }}
   {% endfor %}
+{%- endif -%}
 {%- endif -%}
 

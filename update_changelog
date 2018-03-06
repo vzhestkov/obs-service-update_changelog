@@ -16,13 +16,24 @@ if __name__ == '__main__':
 
     commit = repo.commit('HEAD')
 
+    lastrevision = ''
+    lastrevision_file = py.path.local('_lastrevision')
+    if lastrevision_file.isfile():
+        lastrevision = lastrevision_file.read().strip()
+
+    lastrevision = lastrevision or commit.hexsha
+
+    if not repo.git.merge_base(lastrevision, commit.hexsha):
+        print("%s is not an ancestor of %s. Maybe force-push was used." % (lastrevision, commt.hexsha))
+        sys.exit(1)
+
     if "[skip]" in commit.message:
         sys.exit(0)
 
     existing_patches = set(
         [
             py.path.local(it.path).basename
-            for it in repo.commit('HEAD~1').tree['salt']
+            for it in repo.commit(lastrevision).tree['salt']
             if it.path.endswith(".patch")
         ]
     )
@@ -40,7 +51,7 @@ if __name__ == '__main__':
     modified = set(
         [
             py.path.local(it.a_path).basename
-            for it in repo.commit("HEAD").diff("HEAD~1")
+            for it in repo.commit("HEAD").diff(lastrevision)
             if it.a_path.endswith(".patch")
         ]
     ).difference(added.union(deleted))
@@ -55,8 +66,19 @@ if __name__ == '__main__':
 
     current_dt = datetime.now().replace(tzinfo=pytz.utc)
 
+    lastrevision_commit = repo.commit(lastrevision)
+    ref = repo.commit("HEAD")
+    messages = []
+    while ref.hexsha != repo.commit(lastrevision).hexsha:
+        messages.append(ref.message.encode('utf8'))
+        ref = repo.commit("%s^" % ref.hexsha)
+
+    if not messages:
+        print("Nothing new.")
+        sys.exit(0)
+
     changelog_entry = template.render(
-        message=commit.message.encode('utf8'),
+        messages=messages,
         name=commit.author.name,
         email=commit.author.email,
         added=added,
@@ -65,9 +87,15 @@ if __name__ == '__main__':
         datetime=current_dt.strftime("%a %b %-d %X %Z %Y")
     )
 
-    with open('salt.changes', 'r+') as f:
-        content = f.read()
-        f.seek(0, 0)
-        f.write(changelog_entry.encode('utf-8'))
-        f.write('\n')
-        f.write(content)
+    try:
+        with open('salt.changes', 'r+') as f:
+            content = f.read()
+            f.seek(0, 0)
+            f.write(changelog_entry.encode('utf-8'))
+            f.write('\n')
+            f.write(content)
+    except Exception:
+        sys.exit(1)
+    else:
+        with open('_lastrevision', 'wb') as f:
+            f.write(commit.hexsha)

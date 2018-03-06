@@ -5,9 +5,17 @@ import sys
 import os
 import py
 import pytz
+import logging
 from git import Repo
 from datetime import datetime
 from jinja2 import Environment, PackageLoader, select_autoescape
+
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG)
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+log.addHandler(ch)
 
 
 if __name__ == '__main__':
@@ -24,7 +32,10 @@ if __name__ == '__main__':
     lastrevision = lastrevision or commit.hexsha
 
     if not repo.git.merge_base(lastrevision, commit.hexsha):
-        print("%s is not an ancestor of %s. Maybe force-push was used." % (lastrevision, commt.hexsha))
+        log.error((
+            "%s is not an ancestor of %s. "
+            "Maybe force-push was used. "
+            "Fix _lastrevision reference.") % (lastrevision, commt.hexsha))
         sys.exit(1)
 
     if "[skip]" in commit.message:
@@ -74,7 +85,7 @@ if __name__ == '__main__':
         ref = repo.commit("%s^" % ref.hexsha)
 
     if not messages:
-        print("Nothing new.")
+        log.info("Nothing new.")
         sys.exit(0)
 
     changelog_entry = template.render(
@@ -95,6 +106,7 @@ if __name__ == '__main__':
             f.write('\n')
             f.write(content)
     except Exception:
+        log.error("Unable to write the changelog.")
         sys.exit(1)
     else:
         with open('_lastrevision', 'wb') as f:

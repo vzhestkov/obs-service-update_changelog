@@ -14,6 +14,7 @@ Url:            https://github.com/dincamihai/obs-service-%{service}/archive/%{b
 Source:         https://github.com/dincamihai/obs-service-%{service}/archive/%{branch}.tar.gz
 BuildArch:      noarch
 BuildRequires:  %{python_module devel}
+BuildRequires:  python-rpm-macros
 Requires:       python-GitPython
 Requires:       python-Jinja2
 Requires:       python-py

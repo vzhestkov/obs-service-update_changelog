@@ -18,6 +18,7 @@ BuildRequires:  python-rpm-macros
 Requires:       python-GitPython
 Requires:       python-Jinja2
 Requires:       python-py
+Requires:       python-pytz
 BuildRoot:      %{_tmppath}/%{name}-%{branch}
 
 %description

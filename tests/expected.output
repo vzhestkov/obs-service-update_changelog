@@ -1,0 +1,17 @@
+-------------------------------------------------------------------
+Wed Mar 21 17:35:34 UTC 2018 - Fake Name <fake@example.com>
+                                                                                    
+- First entry
+- Second entry
+
+- Added:
+  * first_added.patch
+  * second_added.patch
+
+- Modified:
+  * first_modified.patch
+  * second_modified.patch
+
+- Removed:
+  * first_deleted.patch
+  * second_deleted.patch

@@ -25,5 +25,6 @@
   {%- for item in deleted %}
   * {{ item }}
   {%- endfor %}
+{{- "\n" -}}
 {%- endif -%}
 {%- endif -%}

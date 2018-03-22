@@ -3,7 +3,7 @@ import pytest
 from datetime import datetime
 from mock import Mock, MagicMock, patch
 
-import common
+from updatechangelog import common
 
 
 def test_nothing_new():

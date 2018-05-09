@@ -6,7 +6,7 @@ setup(
     package_data = {
         'updatechangelog': ['templates/*']
     },
-    install_requires=['jinja2', 'py', 'gitpython'],
+    install_requires=['jinja2', 'py', 'gitpython', 'pytz'],
     version='0.1',
     packages=['updatechangelog'],
     license='MIT',

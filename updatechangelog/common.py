@@ -100,7 +100,10 @@ def main():
     )
 
     try:
-        with open('salt.changes', 'r+') as f:
+        changelog_files = [x for x in os.listdir(".") if x.endswith(".changes")]
+        if len(changelog_files) > 1:
+            log.error("Unable to write changelog: multiple .changes files detected")
+        with open(changelog_files[0], 'r+') as f:
             content = f.read()
             f.seek(0, 0)
             f.write(changelog_entry.encode('utf-8'))

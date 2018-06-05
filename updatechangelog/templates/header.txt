@@ -7,21 +7,21 @@
 {% endfor -%}
 {%- if added -%}
 {{- "\n" -}}
-- Added:                                                                            
+- Added:
   {%- for item in added %}
   * {{ item }}
   {%- endfor %}
 {% endif -%}
 {%- if modified -%}
 {{- "\n" -}}
-- Modified:                                                                          
+- Modified:
   {%- for item in modified %}
   * {{ item }}
   {%- endfor %}
 {% endif -%}
 {%- if deleted -%}
 {{- "\n" -}}
-- Removed:                                                                          
+- Removed:
   {%- for item in deleted %}
   * {{ item }}
   {%- endfor %}

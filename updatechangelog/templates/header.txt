@@ -1,7 +1,7 @@
 {%- if messages -%}
 -------------------------------------------------------------------
-{{ datetime }} - {{ name }} <{{ email }}>
-                                                                                    
+{{ datetime }} - {{ email }}
+
 {% for item in messages -%}
 - {{ item | safe }}
 {% endfor -%}

@@ -96,7 +96,7 @@ def main():
         added=added,
         modified=modified,
         deleted=deleted,
-        datetime=current_dt.strftime("%a %b %-d %X %Z %Y")
+        datetime=current_dt.strftime("%a %b %d %X %Z %Y")
     )
 
     try:

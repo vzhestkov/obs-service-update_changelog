@@ -1,30 +1,26 @@
 {%- if messages -%}
--------------------------------------------------------------------
-{{ datetime }} - {{ name }} <{{ email }}>
-                                                                                    
-{% for item in messages -%}
-- {{ item | safe }}
-{% endfor -%}
+{%- for item in messages -%}
+{% if loop.index != 1 %}- {% endif %}{{ item | safe }}
+{%- endfor %}
 {%- if added -%}
 {{- "\n" -}}
-- Added:                                                                            
+- Added:
   {%- for item in added %}
   * {{ item }}
   {%- endfor %}
-{% endif -%}
+{% endif %}
 {%- if modified -%}
 {{- "\n" -}}
-- Modified:                                                                          
+- Modified:
   {%- for item in modified %}
   * {{ item }}
   {%- endfor %}
-{% endif -%}
+{% endif %}
 {%- if deleted -%}
 {{- "\n" -}}
-- Removed:                                                                          
+- Removed:
   {%- for item in deleted %}
   * {{ item }}
   {%- endfor %}
-{{- "\n" -}}
 {%- endif -%}
 {%- endif -%}

@@ -9,6 +9,8 @@ from datetime import datetime
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 
+OSC_VC = '/usr/lib/build/vc'
+
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 ch = logging.StreamHandler()
@@ -91,27 +93,20 @@ def main():
 
     changelog_entry = template.render(
         messages=messages,
-        name=commit.author.name,
-        email=commit.author.email,
         added=added,
         modified=modified,
         deleted=deleted,
-        datetime=current_dt.strftime("%a %b %-d %X %Z %Y")
-    )
+    ).encode("utf-8").strip()
+
+    changelog_msg_escaped = "'" + str(changelog_entry).replace("'", "'\\''") + "'"
+    cmd = "mailaddr={0} {1} -m {2}".format(commit.author.email,
+                                           OSC_VC,
+                                           changelog_msg_escaped)
+    os.system(cmd)
 
     try:
-        changelog_files = [x for x in os.listdir(".") if x.endswith(".changes")]
-        if len(changelog_files) > 1:
-            log.error("Unable to write changelog: multiple .changes files detected")
-        with open(changelog_files[0], 'r+') as f:
-            content = f.read()
-            f.seek(0, 0)
-            f.write(changelog_entry.encode('utf-8'))
-            f.write('\n')
-            f.write(content)
-    except Exception:
-        log.error("Unable to write the changelog.")
-        sys.exit(1)
-    else:
         with open('_lastrevision', 'wb') as f:
             f.write(commit.hexsha)
+    except Exception as exc:
+        log.error("Unable to update _lastrevision file: {}".format(exc))
+        sys.exit(1)

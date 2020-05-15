@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import sys
 import os
 import py
@@ -87,8 +86,8 @@ def main():
     messages = []
     while ref.hexsha != repo.commit(lastrevision).hexsha:
         if "[skip]" not in ref.message:
-            messages.append(ref.message.encode('utf8'))
-        ref = repo.commit("%s^" % ref.hexsha)
+            messages.append(ref.message)
+        ref = repo.commit(f"{ref.hexsha}^")
 
     if not messages:
         log.info("Nothing new.")
@@ -98,7 +97,7 @@ def main():
             added=added,
             modified=modified,
             deleted=deleted,
-        ).encode("utf-8").strip()
+        ).strip()
 
         cmd = "mailaddr={0} {1} -m {2}".format(cmd_quote(commit.author.email),
                                                OSC_VC,
@@ -106,7 +105,7 @@ def main():
         os.system(cmd)
 
     try:
-        with open('_lastrevision', 'wb') as f:
+        with open('_lastrevision', 'w') as f:
             f.write(commit.hexsha)
     except Exception as exc:
         log.error("Unable to update _lastrevision file: {}".format(exc))

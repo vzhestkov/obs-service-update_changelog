@@ -1,24 +1,23 @@
 # spec file for package obs-service-update_changelog
 
-%{?!python_module:%define python_module() python-%{**} python3-%{**}}
 %define service update_changelog
 %define branch master
 
 Name:           obs-service-%{service}
-Version:        0.5.8
+Version:        0.6.0
 Release:        0
 Summary:        An OBS source service: Update spec file version
 License:        GPL-2.0+
 Group:          Development/Tools/Building
-Url:            https://github.com/dincamihai/obs-service-%{service}/archive/%{branch}.tar.gz
-Source:         https://github.com/dincamihai/obs-service-%{service}/archive/%{branch}.tar.gz
+Url:            https://github.com/openSUSE/obs-service-%{service}/archive/%{branch}.tar.gz
+Source:         https://github.com/openSUSE/obs-service-%{service}/archive/%{branch}.tar.gz
 BuildArch:      noarch
-BuildRequires:  %{python_module devel}
+BuildRequires:  python3-devel
 BuildRequires:  python-rpm-macros
-Requires:       python-GitPython
-Requires:       python-Jinja2 >= 2.9
-Requires:       python-py
-Requires:       python-pytz
+Requires:       python3-GitPython
+Requires:       python3-Jinja2 >= 2.9
+Requires:       python3-py
+Requires:       python3-pytz
 BuildRoot:      %{_tmppath}/%{name}-%{branch}
 
 %description
@@ -37,12 +36,10 @@ Service to update the changelog from git commits.
 %makeinstall
 
 %files
-/usr/lib/obs
-/usr/lib/obs/service
+%dir /usr/lib/obs
+%dir /usr/lib/obs/service
 /usr/bin/update_changelog
-%{python_sitelib}/updatechangelog
 %{python3_sitelib}/updatechangelog
-%{python_sitelib}/updatechangelog-*.egg-info
 %{python3_sitelib}/updatechangelog-*.egg-info
 /usr/lib/obs/service/update_changelog
 /usr/lib/obs/service/update_changelog.service

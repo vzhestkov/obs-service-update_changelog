@@ -85,8 +85,9 @@ def main():
     ref = repo.commit("HEAD")
     messages = []
     while ref.hexsha != repo.commit(lastrevision).hexsha:
-        if "[skip]" not in ref.message:
-            messages.append(ref.message)
+        for line in ref.message.split('\n'):
+            if "[skip]" not in line and line:
+                messages.append(line)
         ref = repo.commit(f"{ref.hexsha}^")
 
     if not messages:

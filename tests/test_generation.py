@@ -36,16 +36,13 @@ def test_rendering():
 
     changelog_entry = template.render(
         messages=messages,
-        name=name,
-        email=email,
         added=added,
         modified=modified,
         deleted=deleted,
-        datetime='Wed Mar 21 17:35:34 UTC 2018'
-    )
+    ).strip()
     expected = ''
     with open('tests/expected.output', 'r') as f:
-        expected = f.read()
+        expected = f.read().strip()
     assert changelog_entry == expected
 
 

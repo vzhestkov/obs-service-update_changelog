@@ -9,10 +9,13 @@ from updatechangelog import common
 def test_nothing_new():
     os_mock = Mock()
     os_mock.getcwd.return_value = ''
-    mock_Repo = MagicMock()
-    with patch.multiple(common, os=os_mock, Repo=mock_Repo):
-        with pytest.raises(SystemExit, match=r'0'):
-            common.main()
+    Repo_mock = MagicMock()
+    write_mock = Mock()
+    open_mock = MagicMock()
+    open_mock.write = write_mock
+    with patch.multiple(common, os=os_mock, Repo=Repo_mock, open=open_mock):
+        common.main()
+    assert write_mock.called_once()
 
 
 def test_rendering():
@@ -36,45 +39,45 @@ def test_rendering():
 
     changelog_entry = template.render(
         messages=messages,
-        name=name,
-        email=email,
         added=added,
         modified=modified,
         deleted=deleted,
-        datetime='Wed Mar 21 17:35:34 UTC 2018'
-    )
+    ).strip()
     expected = ''
     with open('tests/expected.output', 'r') as f:
-        expected = f.read()
+        expected = f.read().strip()
     assert changelog_entry == expected
 
 
-@pytest.mark.skip
 def test_new_commit():
     os_mock = Mock()
     os_mock.getcwd.return_value = ''
-    mock_Repo = MagicMock()
+    Repo_mock = MagicMock()
+    write_mock = Mock()
+    open_mock = MagicMock()
+    open_mock.write = write_mock
 
-    mock_commit1 = MagicMock()
-    mock_commit1.configure_mock(
+    commit1_mock = MagicMock()
+    commit1_mock.configure_mock(
         hexsha = 'abcdef12345'
     )
-    mock_commit1.tree.side_effect = [
+    commit1_mock.tree.side_effect = [
         {'salt': [Mock(path='existing.patch')]},
     ]
 
-    mock_commit2 = MagicMock()
-    mock_commit2.configure_mock(
+    commit2_mock = MagicMock()
+    commit2_mock.configure_mock(
         hexsha = 'abcdef12345'
     )
-    mock_commit2.tree.side_effect = [
+    commit2_mock.tree.side_effect = [
         {'salt': [Mock(path='current.patch')]},
     ]
 
-    mock_Repo.return_value.commit.side_effects = [
-        mock_commit1,
-        mock_commit2
+    Repo_mock.return_value.commit.side_effects = [
+        commit1_mock,
+        commit2_mock
     ]
-    with patch.multiple(common, os=os_mock, Repo=mock_Repo):
-        with pytest.raises(SystemExit, match=r'0'):
-            common.main()
+
+    with patch.multiple(common, os=os_mock, Repo=Repo_mock, open=open_mock):
+        common.main()
+    assert write_mock.called_once()

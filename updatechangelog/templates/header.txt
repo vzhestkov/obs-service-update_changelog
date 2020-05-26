@@ -1,9 +1,10 @@
 {%- if messages -%}
 {%- for item in messages -%}
+{#- osc vc adds one "-" #}
 {% if loop.index != 1 %}- {% endif %}{{ item | safe }}
 {%- endfor %}
 {%- if added -%}
-{{- "\n" -}}
+{{- "\n" }}
 - Added:
   {%- for item in added %}
   * {{ item }}

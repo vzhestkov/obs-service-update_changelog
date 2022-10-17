@@ -1,9 +1,12 @@
 # spec file for package obs-service-update_changelog
 
-%define service update_changelog
-%define branch master
+%{?!python_module:%define python_module() python-%{**} python3-%{**}}
 
-Name:           obs-service-%{service}
+%define service update_changelog
+%define branch make-it-singlespec
+%define modname obs-service-%{service}
+
+Name:           python-obs-service-%{service}
 Version:        0.6.0
 Release:        0
 Summary:        An OBS source service: Update spec file version
@@ -12,13 +15,15 @@ Group:          Development/Tools/Building
 Url:            https://github.com/openSUSE/obs-service-%{service}/archive/%{branch}.tar.gz
 Source:         https://github.com/openSUSE/obs-service-%{service}/archive/%{branch}.tar.gz
 BuildArch:      noarch
-BuildRequires:  python3-devel
+BuildRequires:  %{python_module devel}
+BuildRequires:  fdupes
 BuildRequires:  python-rpm-macros
-Requires:       python3-GitPython
-Requires:       python3-Jinja2 >= 2.9
-Requires:       python3-py
-Requires:       python3-pytz
-BuildRoot:      %{_tmppath}/%{name}-%{branch}
+Requires:       %{python_module Python}
+Requires:       %{python_module Jinja2 >= 2.9}
+Requires:       %{python_module py}
+Requires:       %{python_module pytz}
+BuildRoot:      %{_tmppath}/%{modname}-%{branch}
+%python_subpackages
 
 %description
 This is a source service for openSUSE Build Service.
@@ -26,22 +31,36 @@ This is a source service for openSUSE Build Service.
 Service to update the changelog from git commits.
 
 %prep
-%setup -q -n %{name}-%{branch}
+%setup -q -n %{modname}-%{branch}
 
 %build
 %python_build
 
 %install
+install -d %{buildroot}%{_prefix}/lib/obs/service/
 %python_install
-%makeinstall
+%{python_expand \
+cp %{buildroot}%{_bindir}/update_changelog %{buildroot}%{_prefix}/lib/obs/service/update_changelog-%{$python_bin_suffix}
+sed -ri '1s@#!.*python.*@#!%{_python}@' %{buildroot}%{_prefix}/lib/obs/service/update_changelog-%{$python_bin_suffix}
+%fdupes %{buildroot}%{$python_sitelib}
+}
+rm %{buildroot}%{_bindir}/update_changelog
 
-%files
-%dir /usr/lib/obs
-%dir /usr/lib/obs/service
-/usr/bin/update_changelog
-%{python3_sitelib}/updatechangelog
-%{python3_sitelib}/updatechangelog-*.egg-info
-/usr/lib/obs/service/update_changelog
-/usr/lib/obs/service/update_changelog.service
- 
+%post
+PRIO=$(echo %{python_version}|tr -d '.')
+%{_sbindir}/update-alternatives --install %{_prefix}/lib/obs/service/update_changelog update_changelog \
+    %{_prefix}/lib/obs/service/update_changelog-%{python_bin_suffix} ${PRIO}
+
+%postun
+if [ ! -f %{_prefix}/lib/obs/service/update_changelog-%{python_bin_suffix} ]; then
+   %{_sbindir}/update-alternatives --remove update_changelog \
+       %{_prefix}/lib/obs/service/update_changelog-%{python_bin_suffix}
+fi
+
+%files %python_files
+%dir %{_prefix}/lib/obs
+%dir %{_prefix}/lib/obs/service
+%{_prefix}/lib/obs/service/update_changelog-%{python_bin_suffix}
+%{python_sitelib}/*
+
 %changelog

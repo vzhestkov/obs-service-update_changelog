@@ -41,15 +41,14 @@ install -d %{buildroot}%{_prefix}/lib/obs/service/
 %python_install
 %{python_expand \
 cp %{buildroot}%{_bindir}/update_changelog %{buildroot}%{_prefix}/lib/obs/service/update_changelog-%{$python_bin_suffix}
-sed -ri '1s@#!.*python.*@#!%{_python}@' %{buildroot}%{_prefix}/lib/obs/service/update_changelog-%{$python_bin_suffix}
+sed -ri "1s@#!.*python.*@#!%{_bindir}/python%{python_version} -s@" %{buildroot}%{_prefix}/lib/obs/service/update_changelog-%{$python_bin_suffix}
 %fdupes %{buildroot}%{$python_sitelib}
 }
 rm %{buildroot}%{_bindir}/update_changelog
 
 %post
-PRIO=$(echo %{python_version}|tr -d '.')
 %{_sbindir}/update-alternatives --install %{_prefix}/lib/obs/service/update_changelog update_changelog \
-    %{_prefix}/lib/obs/service/update_changelog-%{python_bin_suffix} ${PRIO}
+    %{_prefix}/lib/obs/service/update_changelog-%{python_bin_suffix} %{python_version_nodots}
 
 %postun
 if [ ! -f %{_prefix}/lib/obs/service/update_changelog-%{python_bin_suffix} ]; then
@@ -60,6 +59,8 @@ fi
 %files %python_files
 %dir %{_prefix}/lib/obs
 %dir %{_prefix}/lib/obs/service
+%ghost %{_sysconfdir}/alternatives/update_changelog
+%ghost %{_prefix}/lib/obs/service/update_changelog
 %{_prefix}/lib/obs/service/update_changelog-%{python_bin_suffix}
 %{python_sitelib}/*
 

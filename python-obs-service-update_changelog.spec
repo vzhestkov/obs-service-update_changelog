@@ -23,6 +23,8 @@ Requires:       %{python_module Jinja2 >= 2.9}
 Requires:       %{python_module py}
 Requires:       %{python_module pytz}
 BuildRoot:      %{_tmppath}/%{modname}-%{branch}
+Requires(post):   update-alternatives
+Requires(postun): update-alternatives
 %python_subpackages
 
 %description

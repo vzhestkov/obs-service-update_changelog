@@ -18,10 +18,10 @@ BuildArch:      noarch
 BuildRequires:  %{python_module devel}
 BuildRequires:  fdupes
 BuildRequires:  python-rpm-macros
-Requires:       %{python_module GitPython}
-Requires:       %{python_module Jinja2 >= 2.9}
-Requires:       %{python_module py}
-Requires:       %{python_module pytz}
+Requires:       python-GitPython
+Requires:       python-Jinja2 >= 2.9
+Requires:       python-py
+Requires:       pythonpytz
 BuildRoot:      %{_tmppath}/%{modname}-%{branch}
 Requires(post):   update-alternatives
 Requires(postun): update-alternatives

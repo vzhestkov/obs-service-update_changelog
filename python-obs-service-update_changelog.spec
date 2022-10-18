@@ -18,7 +18,7 @@ BuildArch:      noarch
 BuildRequires:  %{python_module devel}
 BuildRequires:  fdupes
 BuildRequires:  python-rpm-macros
-Requires:       %{python_module Python}
+Requires:       %{python_module GitPython}
 Requires:       %{python_module Jinja2 >= 2.9}
 Requires:       %{python_module py}
 Requires:       %{python_module pytz}

@@ -21,7 +21,7 @@ BuildRequires:  python-rpm-macros
 Requires:       python-GitPython
 Requires:       python-Jinja2 >= 2.9
 Requires:       python-py
-Requires:       pythonpytz
+Requires:       python-pytz
 BuildRoot:      %{_tmppath}/%{modname}-%{branch}
 Requires(post):   update-alternatives
 Requires(postun): update-alternatives
